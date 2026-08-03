@@ -1,0 +1,502 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABI Bank | Home</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            background:#f4f7fb;
+            overflow-x:hidden;
+        }
+
+        /* NAVBAR */
+
+        nav{
+            width:100%;
+            background:#ffb000;
+            padding:18px 50px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            position:sticky;
+            top:0;
+            z-index:1000;
+        }
+
+        .logo{
+            font-size:34px;
+            font-weight:bold;
+            color:#003a8f;
+        }
+
+        .nav-links a{
+            text-decoration:none;
+            color:#000;
+            margin-left:30px;
+            font-size:18px;
+            font-weight:bold;
+            transition:0.3s;
+        }
+
+        .nav-links a:hover{
+            color:#003a8f;
+        }
+
+        .login-btn{
+            background:#003a8f;
+            color:white !important;
+            padding:10px 22px;
+            border-radius:25px;
+        }
+
+        /* HERO SECTION */
+
+        .hero{
+            width:100%;
+            height:90vh;
+            background:
+                    linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                    url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1600&auto=format&fit=crop');
+
+            background-size:cover;
+            background-position:center;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            text-align:center;
+            color:white;
+            padding:20px;
+        }
+
+        .hero-content h1{
+            font-size:70px;
+            margin-bottom:20px;
+        }
+
+        .hero-content p{
+            font-size:24px;
+            margin-bottom:30px;
+        }
+
+        .hero-buttons a{
+            text-decoration:none;
+            padding:15px 35px;
+            margin:10px;
+            border-radius:35px;
+            font-size:18px;
+            font-weight:bold;
+            transition:0.3s;
+        }
+
+        .open-btn{
+            background:#ffb000;
+            color:black;
+        }
+
+        .open-btn:hover{
+            background:#ffc933;
+            transform:translateY(-3px);
+        }
+
+        .service-btn{
+            background:#003a8f;
+            color:white;
+        }
+
+        .service-btn:hover{
+            background:#0052cc;
+            transform:translateY(-3px);
+        }
+
+        /* SERVICES */
+
+        .services{
+            padding:80px 60px;
+            text-align:center;
+        }
+
+        .section-title{
+            font-size:42px;
+            color:#003a8f;
+            margin-bottom:50px;
+        }
+
+        .service-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:30px;
+        }
+
+        .service-card{
+            background:white;
+            padding:35px;
+            border-radius:20px;
+            box-shadow:0 10px 20px rgba(0,0,0,0.1);
+            transition:0.3s;
+        }
+
+        .service-card:hover{
+            transform:translateY(-10px);
+        }
+
+        .service-card i{
+            font-size:50px;
+            color:#003a8f;
+            margin-bottom:20px;
+        }
+
+        .service-card h3{
+            margin-bottom:15px;
+            font-size:24px;
+        }
+
+        /* FEATURES */
+
+        .features{
+            background:linear-gradient(135deg,#003a8f,#009688);
+            color:white;
+            padding:80px 50px;
+        }
+
+        .feature-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:30px;
+            margin-top:50px;
+        }
+
+        .feature-box{
+            background:rgba(255,255,255,0.1);
+            padding:30px;
+            border-radius:18px;
+            text-align:center;
+            backdrop-filter:blur(8px);
+        }
+
+        .feature-box i{
+            font-size:45px;
+            margin-bottom:20px;
+        }
+
+        /* BANKING SECTION */
+
+        .banking{
+            padding:80px 50px;
+            text-align:center;
+        }
+
+        .banking-container{
+            display:flex;
+            flex-wrap:wrap;
+            gap:40px;
+            align-items:center;
+            justify-content:center;
+            margin-top:50px;
+        }
+
+        .banking-image img{
+            width:450px;
+            max-width:100%;
+            border-radius:25px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .banking-content{
+            max-width:500px;
+            text-align:left;
+        }
+
+        .banking-content h2{
+            color:#003a8f;
+            margin-bottom:20px;
+            font-size:40px;
+        }
+
+        .banking-content p{
+            line-height:1.8;
+            margin-bottom:20px;
+            font-size:18px;
+        }
+
+        /* FOOTER */
+
+        footer{
+            background:#002766;
+            color:white;
+            padding:50px 30px;
+            text-align:center;
+        }
+
+        footer h2{
+            margin-bottom:15px;
+        }
+
+        footer p{
+            margin:8px 0;
+        }
+
+        .social-icons{
+            margin-top:20px;
+        }
+
+        .social-icons i{
+            margin:0 10px;
+            font-size:25px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .social-icons i:hover{
+            color:#ffb000;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:768px){
+
+            nav{
+                padding:15px 20px;
+                flex-direction:column;
+            }
+
+            .nav-links{
+                margin-top:15px;
+            }
+
+            .nav-links a{
+                margin:0 10px;
+                font-size:16px;
+            }
+
+            .hero-content h1{
+                font-size:42px;
+            }
+
+            .hero-content p{
+                font-size:18px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+
+<nav>
+
+    <div class="logo">ABI Bank</div>
+
+    <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#services">Services</a>
+        <a href="#features">Features</a>
+        <a href="#contact">Contact</a>
+        <a href="adminlogin.html">Adminlogin</a>
+        <a href="login.html" class="login-btn">Login</a>
+    </div>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>Welcome To ABI Bank</h1>
+
+        <p>
+            Safe • Secure • Smart Digital Banking Experience
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="createacc.html"
+               class="open-btn">
+
+                Open Account
+            </a>
+
+            <a href="#services"
+               class="service-btn">
+
+                Explore Services
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- SERVICES -->
+
+<section class="services" id="services">
+
+    <h2 class="section-title">Our Banking Services</h2>
+
+    <div class="service-grid">
+
+        <div class="service-card">
+            <i class="fa-solid fa-building-columns"></i>
+            <h3>Savings Account</h3>
+            <p>
+                Open secure savings accounts with easy online banking access.
+            </p>
+        </div>
+
+        <div class="service-card">
+            <i class="fa-solid fa-money-bill-transfer"></i>
+            <h3>Money Transfer</h3>
+            <p>
+                Instantly transfer money securely anytime anywhere.
+            </p>
+        </div>
+
+        <div class="service-card">
+            <i class="fa-solid fa-credit-card"></i>
+            <h3>Cards</h3>
+            <p>
+                Debit and credit cards with premium banking features.
+            </p>
+        </div>
+
+        <div class="service-card">
+            <i class="fa-solid fa-piggy-bank"></i>
+            <h3>Fixed Deposit</h3>
+            <p>
+                Grow your savings with high-interest deposit plans.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- FEATURES -->
+
+<section class="features" id="features">
+
+    <h2 class="section-title" style="color:white">
+        Why Choose ABI Bank?
+    </h2>
+
+    <div class="feature-grid">
+
+        <div class="feature-box">
+            <i class="fa-solid fa-lock"></i>
+            <h3>100% Secure</h3>
+            <p>
+                Advanced encryption and secure banking systems.
+            </p>
+        </div>
+
+        <div class="feature-box">
+            <i class="fa-solid fa-mobile-screen-button"></i>
+            <h3>Mobile Banking</h3>
+            <p>
+                Access your account from anywhere using mobile banking.
+            </p>
+        </div>
+
+        <div class="feature-box">
+            <i class="fa-solid fa-headset"></i>
+            <h3>24/7 Support</h3>
+            <p>
+                Dedicated customer support all day every day.
+            </p>
+        </div>
+
+        <div class="feature-box">
+            <i class="fa-solid fa-bolt"></i>
+            <h3>Fast Transactions</h3>
+            <p>
+                Real-time banking and lightning-fast transactions.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- DIGITAL BANKING -->
+
+<section class="banking">
+
+    <h2 class="section-title">Digital Banking Experience</h2>
+
+    <div class="banking-container">
+
+        <div class="banking-image">
+            <img src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=1200&auto=format&fit=crop">
+        </div>
+
+        <div class="banking-content">
+
+            <h2>Smart Banking Solutions</h2>
+
+            <p>
+                ABI Bank provides next-generation digital banking services with advanced security and modern banking features.
+            </p>
+
+            <p>
+                Manage accounts, transfer money, pay bills, recharge services, and access banking anytime.
+            </p>
+
+            <a href="createacc.html"
+               class="open-btn"
+               style="display:inline-block;text-decoration:none">
+
+                Get Started
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer id="contact">
+
+    <h2>Anshu Bank Of India</h2>
+
+    <p>Email : support@abibank.com</p>
+
+    <p>Phone : +91 87xx10xx6x</p>
+
+    <p>Secure Banking For Everyone</p>
+
+    <div class="social-icons">
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-twitter"></i>
+        <i class="fa-brands fa-linkedin"></i>
+    </div>
+
+    <p style="margin-top:25px">
+        © 2026 ABI Bank. All Rights Reserved.
+    </p>
+
+</footer>
+
+</body>
+</html>
+

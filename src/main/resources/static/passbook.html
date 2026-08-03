@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>ABI Bank Passbook</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body{margin:0;font-family:Arial;background:#eef3f9}
+        .top{background:linear-gradient(90deg,#ffb000,#ffcb45);padding:18px 30px;display:flex;align-items:center;justify-content:space-between}
+        .logo{display:flex;align-items:center;gap:12px}
+        .logo img{width:52px;height:52px;border-radius:50%}
+        .logo h1{margin:0;color:#083b8a}
+        .container{max-width:1100px;margin:30px auto;background:#fff;border-radius:18px;box-shadow:0 10px 25px rgba(0,0,0,.12);overflow:hidden}
+        .header{background:#083b8a;color:#fff;padding:25px;text-align:center}
+        .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:25px}
+        .card{background:#f7faff;padding:16px;border-radius:12px}
+        label{font-weight:bold;color:#083b8a}
+        .value{margin-top:6px}
+        .edit{display:none;width:100%;padding:8px}
+        .actions{text-align:center;padding:20px}
+        button{padding:12px 22px;border:none;border-radius:25px;background:#083b8a;color:#fff;cursor:pointer;margin:5px}
+        .save{background:#198754}
+        @media(max-width:700px){.grid{grid-template-columns:1fr}}
+    </style>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<body>
+<div class="top">
+    <div class="logo">
+        <h1>ABI Bank Passbook</h1>
+    </div>
+    <button onclick="location.href='dashboard.html'">Dashboard</button>
+</div>
+
+<div class="container">
+    <div class="header"><h2>Your Passbook</h2></div>
+
+    <div class="grid" id="details"></div>
+
+    <div class="actions">
+        <button onclick="enableEdit()"><i class="fa fa-pen"></i> Edit Details</button>
+        <button class="save" onclick="saveDetails()"><i class="fa fa-save"></i> Save</button>
+    </div>
+
+    <button onclick="downloadPDF()">
+        <i class="fa fa-download"></i>
+        Download Passbook PDF
+    </button>
+</div>
+
+<script>
+    const userId=localStorage.getItem("abiUserId");
+    let user={};
+    const fields=[
+    ["Full Name","fullName"],["User ID","userId"],["Mobile","mobile"],
+    ["Email","email"],["Aadhaar","aadhaar"],["PAN","pan"],
+    ["Address","address"],["Balance","balance"]
+    ];
+    fetch("http://localhost:8080/dashboard/"+userId)
+    .then(r=>r.json()).then(d=>{
+     user=d;
+     let out="";
+     fields.forEach(f=>{
+     out+=`<div class="card">
+    <label>${f[0]}</label>
+    <div class="value" id="txt_${f[1]}">${d[f[1]]??""}</div>
+    <input class="edit" id="inp_${f[1]}" value="${d[f[1]]??""}">
+    </div>`;
+     });
+     document.getElementById("details").innerHTML=out;
+    });
+    function enableEdit(){
+    ["fullName","mobile","email","aadhaar","pan","address"].forEach(k=>{
+    document.getElementById("txt_"+k).style.display="none";
+    document.getElementById("inp_"+k).style.display="block";
+    });
+    }
+    function saveDetails(){
+    ["fullName","mobile","email","aadhaar","pan","address"].forEach(k=>user[k]=document.getElementById("inp_"+k).value);
+    fetch("http://localhost:8080/updateProfile",{
+    method:"PUT",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(user)
+    })
+    .then(r=>r.text()).then(m=>{alert(m);location.reload();})
+    .catch(()=>alert("Update failed"));
+    }
+
+
+   async function downloadPDF(){
+
+    const { jsPDF } = window.jspdf;
+
+    const doc = new jsPDF();
+
+    // Title
+    doc.setFontSize(20);
+    doc.text("ABI BANK",80,20);
+
+    doc.setFontSize(12);
+    doc.text("ANSHU BANK OF INDIA",65,28);
+
+    doc.line(10,35,200,35);
+
+    doc.text("Customer Name : " + user.fullName,20,45);
+
+    doc.text("User ID : " + user.userId,20,55);
+
+    doc.text("Mobile : " + user.mobile,20,65);
+
+    doc.text("Email : " + (user.email || ""),20,75);
+
+    doc.text("Address : " + (user.address || ""),20,85);
+
+    doc.text("Balance : INR " + user.balance, 20, 95);
+
+    doc.line(10,105,200,105);
+
+    doc.text("Recent Transactions",70,115);
+
+    let y = 130;
+
+    const response = await fetch(
+        "http://localhost:8080/transactions/" + user.userId
+    );
+
+    const transactions = await response.json();
+
+    transactions.forEach(t=>{
+
+       doc.text(
+    `${t.date}   ${t.type}   INR ${t.amount}`,
+    15,
+    y
+);
+
+        y += 10;
+
+    });
+
+    doc.save(
+        "ABI_Passbook_" +
+        user.userId +
+        ".pdf"
+    );
+}
+</script>
+</body></html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABI - Create Account</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: #fff;
+        }
+
+        /* HEADER */
+        .navbar{
+            background:#ffb000;
+            padding:12px 24px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between
+
+
+        }
+
+
+        .name{
+           margin-right: 7px;
+          color: rgb(7, 30, 100);
+         padding-top: 0px;
+        }
+
+        /* Navbar
+        .navbar {
+            background: #f39c12;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            flex-wrap: wrap;
+        }*/
+
+        .nav-links a {
+            margin: 5px;
+            text-decoration: none;
+            color: #000;
+        }
+
+        /* Banner */
+        .banner {
+            background: url('https://images.unsplash.com/photo-1601597111158-2fceff292cdc') center/cover no-repeat;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .banner h1 {font-size: 40px;}
+        .banner button {
+            padding: 12px 25px;
+            background: #00c853;
+            border: none;
+            color: #fff;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        /* Form */
+        .container {
+            width: 90%;
+            max-width: 500px;
+            margin: 20px auto;
+            background: #ffffff10;
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .form-step {display:none;}
+        .form-step.active {display:block;}
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 6px;
+            border: none;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 6px;
+            background: #00c853;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        @media(max-width:600px){
+            .banner h1 {font-size: 26px;}
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+
+    <div class="name"><b> <h3> Welcome To ANSHU BANK OF INDIA </h3></b></div>
+    <div class="nav-links">
+        <a href="#">About</a>
+
+        <a href="#">Services</a>
+        <a href="login.html">Login</a>
+    </div>
+</div>
+
+<div class="banner">
+    <h1>Open Your Bank Account</h1>
+    <button onclick="scrollToForm()">OPEN ACCOUNT</button>
+</div>
+
+<div class="container" id="formSection">
+
+    <!-- Step 1 -->
+    <div class="form-step active">
+        <h3>Personal Details</h3>
+        <input type="text" id="fullName" placeholder="Full Name">
+        <input type="date">
+        <input type="tel" placeholder="Mobile Number" id="mobile">
+        <button onclick="sendOTP()">Send OTP</button>
+        <input type="text" placeholder="Enter OTP">
+        <button onclick="nextStep()">Next</button>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="form-step">
+        <h3>Document Details</h3>
+        <input type="text" id="aadhar" placeholder="Aadhar Number">
+        <input type="text"  id="pan" placeholder="PAN Number">
+        <h4>Upload Profile Picture</h4>
+        <h6>Note:- Upload Image Within 500KB </h6>
+        <input type="file" id="photo" accept="image/*" >
+        <button onclick="prevStep()">Back</button>
+
+        <button onclick="registerUser()">Submit</button>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="form-step">
+        <h3>Upload Photo</h3>
+        <input type="file">
+        <input type="file">
+        <input type="file" accept="image/*">
+        <button onclick="prevStep()">Back</button>
+        <button onclick="registerUser()">Submit</button>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="form-step">
+        <h3>✅ Account Created</h3>
+        <p>User ID: ABI12345</p>
+        <p>Password: Temp@123</p>
+    </div>
+
+</div>
+
+<script>
+    let currentStep = 0;
+    const steps = document.querySelectorAll(".form-step");
+
+    function showStep(step){
+        steps.forEach((el,i)=>el.classList.toggle("active",i===step));
+    }
+
+    function nextStep(){currentStep++;showStep(currentStep);}
+    function prevStep(){currentStep--;showStep(currentStep);}
+    function submitForm(){currentStep++;showStep(currentStep);}
+
+    function scrollToForm(){
+        document.getElementById("formSection").scrollIntoView({behavior:"smooth"});
+    }
+
+    function sendOTP(){
+        alert("OTP sent to your mobile (demo)");
+    }
+
+
+  async function registerUser() {
+
+    // INPUT VALUES
+    const fullName =
+        document.getElementById("fullName").value;
+
+    const mobile =
+        document.getElementById("mobile").value;
+
+    const aadhar =
+        document.getElementById("aadhar").value;
+
+    const pan =
+        document.getElementById("pan").value;
+
+    // IMAGE FILE
+    const file =
+        document.getElementById("photo").files[0];
+
+
+    // VALIDATION
+
+    if(fullName.trim() === ""){
+
+        alert("Please Enter Full Name");
+
+        return;
+    }
+
+    if(mobile.trim() === ""){
+
+        alert("Please Enter Mobile Number");
+
+        return;
+    }
+
+    // MOBILE CHECK
+    if(mobile.length !== 10){
+
+        alert(
+            "Mobile Number Must Be 10 Digits"
+        );
+
+        return;
+    }
+
+    if(aadhar.trim() === ""){
+
+        alert("Please Enter Aadhar Number");
+
+        return;
+    }
+
+    // AADHAR CHECK
+    if(aadhar.length !== 12){
+
+        alert(
+            "Aadhar Number Must Be 12 Digits"
+        );
+
+        return;
+    }
+
+    if(pan.trim() === ""){
+
+        alert("Please Enter PAN Number");
+
+        return;
+    }
+
+    if(file == null){
+
+        alert("Please Upload Profile Photo");
+
+        return;
+    }
+
+
+    // IMAGE TO BASE64
+    let base64Image = "";
+
+    base64Image = await toBase64(file);
+
+
+    // USER DATA
+    const data = {
+
+        fullName: fullName,
+
+        mobile: mobile,
+
+        aadhar: aadhar,
+
+        pan: pan,
+
+        profilePhoto: base64Image
+    };
+
+
+    // SEND TO BACKEND
+    const response = await fetch(
+
+        "http://localhost:8080/register",
+
+        {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type":
+                    "application/json"
+            },
+
+            body: JSON.stringify(data)
+        }
+    );
+
+
+    const result =
+        await response.json();
+
+
+    // SUCCESS MESSAGE
+    alert(
+
+        "Account Created Successfully\n\n" +
+
+        "User ID : " + result.userId +
+
+        "\nPassword : " + result.password
+    );
+
+
+    // REDIRECT
+    window.location.href =
+        "login.html";
+}
+
+
+
+// IMAGE CONVERT FUNCTION
+function toBase64(file){
+
+    return new Promise((resolve, reject) => {
+
+        const reader = new FileReader();
+
+        reader.readAsDataURL(file);
+
+        reader.onload = () => resolve(reader.result);
+
+        reader.onerror = error => reject(error);
+    });
+}
+</script>
+
+</body>
+</html>

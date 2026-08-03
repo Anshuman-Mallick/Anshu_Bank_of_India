@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABI Bank | Login</title>
+
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <h1 class="title">ABI Bank</h1>
+
+        <h3>Internet Banking Login</h3>
+
+        <div class="input-group">
+
+            <label>User ID</label>
+
+            <input type="text"
+                   id="userid"
+                   placeholder="Enter User ID">
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Password</label>
+
+            <input type="password"
+                   id="password"
+                   placeholder="Enter Password">
+
+        </div>
+
+        <button class="login-btn"
+                onclick="Login()">
+
+            Login
+
+        </button>
+
+        <p id="errorBox"></p>
+
+        <div class="links">
+
+            <a href="forgotpassword.html" class="forgot-link">
+                Forgot Password?
+            </a>
+
+            <a href="index.html">
+                Create Account
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>   async function Login() {
+
+    const loginData = {
+        userId: document.getElementById("userid").value,
+        password: document.getElementById("password").value
+    };
+
+    try {
+
+        const response = await fetch("http://localhost:8080/login", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(loginData)
+
+        });
+
+        const result = await response.json();
+
+        if (result.token != null) {
+
+            localStorage.setItem("token", result.token);
+
+            localStorage.setItem("abiUserId", result.user.userId);
+
+            alert("Login Successful");
+
+            window.location.href = "dashboard.html";
+
+        } else {
+
+            document.getElementById("errorBox").innerHTML =
+                result.message;
+
+        }
+
+    } catch (error) {
+
+        console.log(error);
+
+        document.getElementById("errorBox").innerHTML =
+            "Server Error";
+
+    }
+}
+
+
+</script>
+
+</body>
+</html>
